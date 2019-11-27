@@ -1,0 +1,91 @@
+{
+	"name": "openin",
+	"displayName": "openIn",
+	"description": "Allows files to be opened in an external editor within VS Code",
+	"version": "0.1.0",
+	"publisher": "Ross-RDP",
+	"engines": {
+		"vscode": "^1.40.0"
+	},
+	"categories": [
+		"Other"
+	],
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/Rossosaurus/openIn"
+	},
+	"bugs": {
+		"url": "https://github.com/Rossosaurus/openIn/issues"
+	},
+	"keywords": [
+		"open",
+		"with",
+		"in",
+		"files",
+		"file",
+		"external",
+		"applications",
+		"external application",
+		"open with",
+		"open in"
+	],
+	"activationEvents": [
+		"*"
+	],
+	"main": "./out/extension.js",
+	"contributes": {
+		"commands": [
+			{
+				"command": "extension.openIn",
+				"title": "openIn: Open script with program..."
+			}
+		],
+		"configuration": [{
+			"type": "object",
+			"title": "openIn Configuration",
+			"properties": {
+				"openIn.programs": {
+					"type": "array",
+					"items": {
+						"type": "array",
+						"properties": {
+							"name": {
+								"type": "string",
+								"description": "Name of program",
+								"required": true
+							},
+							"path": {
+								"type": "string",
+								"description": "Path of executable + arguments or command to be executed",
+								"required": true
+							},
+							"fileExtensions": {
+								"type": "string",
+								"description": "List of file extensions this program will be listed for. Separate them by commas, leave empty to be listed on every file type.",
+								"required": true
+							}
+						}
+					}
+				}
+			}
+		}]
+	},
+	"scripts": {
+		"vscode:prepublish": "npm run compile",
+		"compile": "tsc -p ./",
+		"watch": "tsc -watch -p ./",
+		"pretest": "npm run compile",
+		"test": "node ./out/test/runTest.js"
+	},
+	"devDependencies": {
+		"@types/glob": "^7.1.1",
+		"@types/mocha": "^5.2.7",
+		"@types/node": "^12.11.7",
+		"@types/vscode": "^1.40.0",
+		"glob": "^7.1.5",
+		"mocha": "^6.2.2",
+		"typescript": "^3.6.4",
+		"tslint": "^5.20.0",
+		"vscode-test": "^1.2.2"
+	}
+}
