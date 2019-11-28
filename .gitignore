@@ -3,3 +3,4 @@
 CHANGELOG.md
 node_modules/
 out/
+*.vsix

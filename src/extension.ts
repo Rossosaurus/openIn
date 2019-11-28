@@ -33,7 +33,7 @@ export function activate(context: vscode.ExtensionContext) {
 			}
 		}
 		chosenProgram = await vscode.window.showQuickPick(programPaths, {placeHolder: "Program: ..."});
-		cp.exec(String(Object.values(chosenProgram)[0]) + " \"" + String(vscode.window.activeTextEditor.document.fileName) + "\"");
+		cp.exec(String("\"" + Object.values(chosenProgram)[0]) + "\" \"" + String(vscode.window.activeTextEditor.document.fileName) + "\"");
 	});
 
 	context.subscriptions.push(openWith);
