@@ -1,8 +1,9 @@
 {
 	"name": "openin",
 	"displayName": "openIn",
+	"icon": "src/openIn.png",
 	"description": "Allows files to be opened in an external editor within VS Code",
-	"version": "0.1.0",
+	"version": "0.1.1",
 	"publisher": "Ross-RDP",
 	"engines": {
 		"vscode": "^1.40.0"
@@ -38,8 +39,31 @@
 			{
 				"command": "extension.openIn",
 				"title": "openIn: Open script with program..."
+			},
+			{
+				"command": "extension.cmOpenIn",
+				"title": "openIn: Open file"
+			},
+			{
+				"command": "extension.recheck",
+				"title": "openIn: Check for new entries"
 			}
 		],
+		"menus": {
+			"commandPalette": [
+				{
+					"when": "false",
+					"command": "extension.cmOpenIn"
+				}
+			],
+			"explorer/context": [
+				{
+					"when": "!explorerResourceIsFolder",
+					"command": "extension.cmOpenIn",
+					"group": "navigation"
+				}
+			]
+		},
 		"configuration": [{
 			"type": "object",
 			"title": "openIn Configuration",
@@ -62,6 +86,11 @@
 							"fileExtensions": {
 								"type": "string",
 								"description": "List of file extensions this program will be listed for. Separate them by commas, leave empty to be listed on every file type.",
+								"required": true
+							},
+							"contextMenu": {
+								"type": "boolean",
+								"description": "Set to true if you want this to be the program launched when using the explorer context menu command. Cannot be true if no file extensions are listed in the \"fileExtensions\" property. If a this property is set as true for multiple programs with the same file extension listed than the first program in this array will be used.",
 								"required": true
 							}
 						}
