@@ -3,7 +3,7 @@
 	"displayName": "openIn",
 	"icon": "src/openIn.png",
 	"description": "Allows files to be opened in an external editor within VS Code",
-	"version": "0.1.1",
+	"version": "0.2.0",
 	"publisher": "Ross-RDP",
 	"engines": {
 		"vscode": "^1.40.0"
@@ -64,40 +64,42 @@
 				}
 			]
 		},
-		"configuration": [{
-			"type": "object",
-			"title": "openIn Configuration",
-			"properties": {
-				"openIn.programs": {
-					"type": "array",
-					"items": {
+		"configuration": [
+			{
+				"type": "object",
+				"title": "openIn Configuration",
+				"properties": {
+					"openIn.programs": {
 						"type": "array",
-						"properties": {
-							"name": {
-								"type": "string",
-								"description": "Name of program",
-								"required": true
-							},
-							"path": {
-								"type": "string",
-								"description": "Path of executable + arguments or command to be executed",
-								"required": true
-							},
-							"fileExtensions": {
-								"type": "string",
-								"description": "List of file extensions this program will be listed for. Separate them by commas, leave empty to be listed on every file type.",
-								"required": true
-							},
-							"contextMenu": {
-								"type": "boolean",
-								"description": "Set to true if you want this to be the program launched when using the explorer context menu command. Cannot be true if no file extensions are listed in the \"fileExtensions\" property. If a this property is set as true for multiple programs with the same file extension listed than the first program in this array will be used.",
-								"required": true
+						"items": {
+							"type": "array",
+							"properties": {
+								"name": {
+									"type": "string",
+									"description": "Name of program",
+									"required": true
+								},
+								"path": {
+									"type": "string",
+									"description": "Path of executable + arguments or command to be executed",
+									"required": true
+								},
+								"fileExtensions": {
+									"type": "string",
+									"description": "List of file extensions this program will be listed for. Separate them by commas, leave empty to be listed on every file type.",
+									"required": true
+								},
+								"contextMenu": {
+									"type": "boolean",
+									"description": "Set to true if you want this to be the program launched when using the explorer context menu command. Cannot be true if no file extensions are listed in the \"fileExtensions\" property. If a this property is set as true for multiple programs with the same file extension listed than the first program in this array will be used.",
+									"required": true
+								}
 							}
 						}
 					}
 				}
 			}
-		}]
+		]
 	},
 	"scripts": {
 		"vscode:prepublish": "npm run compile",
