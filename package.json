@@ -81,7 +81,7 @@
 								},
 								"path": {
 									"type": "string",
-									"description": "Path of executable + arguments or command to be executed",
+									"description": "Path of executable + arguments or command to be executed use $filePath for where the file location should be placed in the command string. If $filePath is not found the file path will be placed at the end of the string.",
 									"required": true
 								},
 								"fileExtensions": {

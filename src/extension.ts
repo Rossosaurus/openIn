@@ -1,5 +1,6 @@
 import * as vscode from 'vscode';
 import * as cp from 'child_process';
+import { open } from 'fs';
 
 function fileTypeCheck(fileExtensions:String, chosenFileExt:string):Boolean {
 	var extArray:Array<String> = fileExtensions.toUpperCase().trim().replace(" ", "").replace(".", "").split(",");
@@ -25,7 +26,7 @@ export function activate(context: vscode.ExtensionContext) {
 
 	let openIn = vscode.commands.registerCommand('extension.openIn', async () => {
 		for (var i = 0; i < programs.length; i++) {
-			if (fileTypeCheck(programs[i][2], vscode.window.activeTextEditor.document.fileName)) {
+			if (fileTypeCheck(programs[i][2],String(vscode.window.activeTextEditor.document.fileName).split(".").pop().toUpperCase())) {
 				var desc = String(programs[i][1] + " | All");
 				if (programs[i][2] === "") {
 					programPaths.push({label: String(programs[i][0]), description: desc});
@@ -33,15 +34,28 @@ export function activate(context: vscode.ExtensionContext) {
 			}
 		}
 		chosenProgram = await vscode.window.showQuickPick(programPaths, {placeHolder: "Program: ..."});
-		cp.exec(String("\"" + Object.values(chosenProgram)[0]) + "\" \"" + String(vscode.window.activeTextEditor.document.fileName) + "\"");
-		openIn.dispose();
+		var strCommand:String = String("\"" + Object.values(chosenProgram)[0] + "\"");
+		if (strCommand.includes("$filePath")){
+			strCommand.replace("$filePath", String(vscode.window.activeTextEditor.document.fileName));
+		} else {
+			strCommand += " \"" + String(vscode.window.activeTextEditor.document.fileName) + "\"";
+		}
+		programPaths.length = 0;
+		vscode.window.showInformationMessage("Executing command: " + strCommand);
+		cp.exec(String(strCommand));
 	});
 
 	let cmOpenIn = vscode.commands.registerCommand('extension.cmOpenIn', (uri:vscode.Uri) => {
 		var fileExtension = uri.fsPath.toUpperCase().split(".").pop();
 		for (var i = 0; i < programs.length; i++) {
 			if (fileTypeCheck(programs[i][2], fileExtension) && programs[i][3]) {
-				cp.exec(String("\"" + programs[i][1] + "\" \"" + uri.fsPath));
+				var strCommand:String = String("\"" + programs[i][1] + "\"");
+				if (strCommand.includes("$filePath")) {
+					strCommand.replace("$filePath", uri.fsPath);
+				} else {
+					strCommand += " \"" + uri.fsPath;
+				}
+				cp.exec(String(strCommand));
 				return;
 			}
 		}
